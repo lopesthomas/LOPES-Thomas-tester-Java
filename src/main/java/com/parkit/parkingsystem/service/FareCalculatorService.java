@@ -19,6 +19,11 @@ public class FareCalculatorService {
         if (duration <= 0) {
             throw new IllegalArgumentException("Duration must be positive: " + duration);
         }
+        if (duration <= 0.50) {
+            ticket.setPrice(0);
+            System.out.println("Price calculated for duration less than 30 minutes: " + ticket.getPrice());
+            return;
+        }
 
         switch (ticket.getParkingSpot().getParkingType()){
             case CAR: {
