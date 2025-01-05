@@ -5,7 +5,7 @@ import com.parkit.parkingsystem.model.Ticket;
 
 public class FareCalculatorService {
 
-    public void calculateFare(Ticket ticket){
+    public void calculateFare(Ticket ticket, boolean discount){
         if( (ticket.getOutTime() == null) || (ticket.getOutTime().before(ticket.getInTime())) ){
             throw new IllegalArgumentException("Out time provided is incorrect:" + ticket.getOutTime().toString());
         }
@@ -27,14 +27,26 @@ public class FareCalculatorService {
 
         switch (ticket.getParkingSpot().getParkingType()){
             case CAR: {
-                ticket.setPrice(duration * Fare.CAR_RATE_PER_HOUR);
-                System.out.println("Price calculated for CAR: " + ticket.getPrice());
-                break;
+                if (discount) {
+                    ticket.setPrice(duration * Fare.CAR_RATE_PER_HOUR * 0.95);
+                    System.out.println("Price calculated for CAR with 5% discount: " + ticket.getPrice());
+                    break;
+                } else {
+                    ticket.setPrice(duration * Fare.CAR_RATE_PER_HOUR);
+                    System.out.println("Price calculated for CAR: " + ticket.getPrice());
+                    break;
+                }
             }
             case BIKE: {
-                ticket.setPrice(duration * Fare.BIKE_RATE_PER_HOUR);
-                System.out.println("Price calculated for BIKE: " + ticket.getPrice());
-                break;
+                if (discount) {
+                    ticket.setPrice(duration * Fare.BIKE_RATE_PER_HOUR * 0.95);
+                    System.out.println("Price calculated for BIKE with 5% discount: " + ticket.getPrice());
+                    break;
+                } else {
+                    ticket.setPrice(duration * Fare.BIKE_RATE_PER_HOUR);
+                    System.out.println("Price calculated for BIKE: " + ticket.getPrice());
+                    break;
+                }
             }
             default: throw new IllegalArgumentException("Unkown Parking Type");
         }
