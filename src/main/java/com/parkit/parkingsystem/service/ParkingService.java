@@ -73,8 +73,11 @@ public class ParkingService {
             }
         }catch(IllegalArgumentException ie){
             logger.error("Error parsing user input for type of vehicle", ie);
+            // Relancer l'exception pour qu'elle soit disponible pour le test
+        throw ie;
         }catch(Exception e){
             logger.error("Error fetching next available parking slot", e);
+            throw new RuntimeException("Unexpected error while fetching parking slot", e);  // Relancez une exception runtime pour les autres erreurs
         }
         return parkingSpot;
     }
@@ -104,7 +107,7 @@ public class ParkingService {
             Ticket ticket = ticketDAO.getTicket(vehicleRegNumber);
             Date outTime = new Date();
             ticket.setOutTime(outTime);
-            if (ticketDAO.getNbTicket(vehicleRegNumber) > 1){
+            if (ticketDAO.getNbTicket(vehicleRegNumber) >= 1){
                 discount = true;
             }
             fareCalculatorService.calculateFare(ticket, discount);
