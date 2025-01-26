@@ -101,11 +101,10 @@ public class ParkingService {
         }
     }
 
-    public void processExitingVehicle() {
+    public void processExitingVehicle(Date outTime) {
         try{
             String vehicleRegNumber = getVehichleRegNumber();
             Ticket ticket = ticketDAO.getTicket(vehicleRegNumber);
-            Date outTime = new Date();
             ticket.setOutTime(outTime);
             if (ticketDAO.getNbTicket(vehicleRegNumber) >= 1){
                 discount = true;
