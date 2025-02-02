@@ -106,7 +106,7 @@ public class ParkingService {
             String vehicleRegNumber = getVehichleRegNumber();
             Ticket ticket = ticketDAO.getTicket(vehicleRegNumber);
             ticket.setOutTime(outTime);
-            if (ticketDAO.getNbTicket(vehicleRegNumber) >= 1){
+            if (ticketDAO.getNbTicket(vehicleRegNumber) > 1){
                 discount = true;
             }
             fareCalculatorService.calculateFare(ticket, discount);

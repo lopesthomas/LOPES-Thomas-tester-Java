@@ -98,12 +98,13 @@ public class ParkingDataBaseIT {
     }
 
     @Test
-    public void testParkingLotExitRecurringUser() {
+    public void testParkingLotExitRecurringUser() throws InterruptedException {
         ParkingService parkingService = new ParkingService(inputReaderUtil, parkingSpotDAO, ticketDAO);
 
         // Simulate a first entry and exit to mark the user as recurring
         parkingService.processIncomingVehicle();
         parkingService.processExitingVehicle(new Date(System.currentTimeMillis()));
+        Thread.sleep(2000); // Wait for 2 seconds to ensure the next entry time is different
 
         // Simulate a second entry and exit
         parkingService.processIncomingVehicle();
